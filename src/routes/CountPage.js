@@ -1,18 +1,29 @@
-import React from 'react';
+import React , { Component, PropTypes } from 'react';
 import { connect } from 'dva';
 
-import Count from '../components/Count'
+// import Count from '../components/Count';
 
-function CountPage() {
+import styles from './CountPage.less';
+
+
+function CountPage({count, dispatch}) {
   return (
-    <div>
-      this is CountPage
-      <Count/>
+    <div className={styles.normal}>
+      <div className={styles.record}>Highest Record: {count.record}</div>
+      <div className={styles.current}>{count.current}</div>
+      <div className={styles.button}>
+        <button onClick={() => { dispatch({type: 'count/add'}); }}>+</button>
+      </div>
     </div>
   );
 }
 
 CountPage.propTypes = {
+	count: PropTypes.object,
 };
 
-export default connect()(CountPage);
+function mapStateToProps(state) {
+  return { count: state.count };
+}
+
+export default connect(mapStateToProps)(CountPage);
